@@ -41,6 +41,6 @@ a -> b using the constraint Monoid b
 (a, b) using the constraint (Monoid a, Monoid b)
 
 -- n
-IO a using the constraint Monoid a
+IO a using the constraint Monoid a 
 
 
