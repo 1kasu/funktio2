@@ -1,5 +1,11 @@
+import Data.Monoid
+
 -- a
-newtype Count = Count {getCount :: Integer}
+newtype Count = Count {getCount :: Integer} deriving (Eq, Show)
+
+instance Monoid Count where
+    mempty = Count 0
+    mappend (Count a) (Count b) = Count(a+b)
 
 
 -- b 
