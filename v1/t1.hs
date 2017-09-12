@@ -1,4 +1,4 @@
-import Data.Monoid hiding (Sum)
+import Data.Monoid hiding (Sum, Product)
 
 -- a
 newtype Count = Count {getCount :: Integer} deriving (Eq, Show)
@@ -26,11 +26,23 @@ instance Num a => Monoid (Sum a) where
 -- mempty <> Sum a = Sum 0 <> Sum a = Sum (0+a) = Sum a => Toimii
 -- Sum a <> mempty = Sum a <> Sum 0 = Sum (a+0) = Sum a => Toimii
 -- (Sum a <> Sum b) <> Sum c = Sum (a+b) <> Sum c = Sum ((a+b)+c) = Sum (a+b+c)
--- Sum a <> (Sum b <> Sum c)) = Sum a <> Sum (b+c) = Sum (a+(b+c)) = Sum (a+b+c) 
+-- Sum a <> (Sum b <> Sum c)) = Sum a <> Sum (b+c) = Sum (a+(b+c)) = Sum (a+b+c)
+-- => Pätee. 
 
 -- c
-newtype Product a = Product {getProduct :: a} --using the constraint Num a
+newtype Product a = Product {getProduct :: a} deriving (Eq, Show) --using the constraint Num a
 
+instance Num a => Monoid (Product a) where 
+    mempty = Product 1
+    mappend (Product a) (Product b) = Product(a*b)
+
+-- mempty <> Product a = Product 1 <> Product a = Product (1*a) = Product a => Toimii
+-- Product a <> mempty = Product a <> Product 1 = Product (a*1) = Product a => Toimii
+-- (Product a <> Product b) <> Product c = Product (a*b) <> Product c = Product ((a*b)*c) = Product (a*b*c)
+-- Product a <> (Product b <> Product c)) = Product a <> Product (b*c) = Product (a*(b*c)) = Product (a*b*c)
+-- => Pätee.
+    
+    
 -- d
 newtype First a = First {getFirst :: Maybe a}
 
