@@ -1,6 +1,7 @@
 import Data.Monoid
 
 data ExerciseLevel = Nope | HonestAttempt | Correct | Awesome deriving (Show, Eq)
+data Palautus = Palautus {myohassa :: Bool, tehtavat :: [ExerciseLevel]}
 data Grade = Hylatty | Yksi | Kaksi | Kolme | Nelja | Viisi | Kakku deriving (Eq, Ord, Show)
 data Arvosanat = Arvosanat {getNope :: Int, getHonestAttempt :: Int, getCorrect :: Int, getAwesome :: Int} deriving (Show)
 
@@ -75,11 +76,17 @@ muutaArvosanaksi Awesome = Arvosanat 0 0 0 1
 keraa :: [ExerciseLevel] -> Arvosanat
 keraa e = foldMap muutaArvosanaksi e
 
-laskeGrade :: [ExerciseLevel] -> Grade
-laskeGrade e = arvostele (keraa e)
+laskeYhdella :: Arvosanat -> Arvosanat
+laskeYhdella (Arvosanat n h c a) = if a > 0 then Arvosanat n h (c+1) (a-1)
+                                            else if c > 0 then Arvosanat n (h+1) (c-1) a
+                                                else if h > 0 then Arvosanat (n+1) (h-1) c a
+                                                    else Arvosanat n h c a
+
+laskeGrade :: Palautus -> Grade
+laskeGrade (Palautus m e) = if m then arvostele (laskeYhdella (keraa e)) else arvostele (keraa e)
 
 
-laskeKurssinGrade :: [[ExerciseLevel]] -> Grade
+laskeKurssinGrade :: [Palautus] -> Grade
 laskeKurssinGrade [] = Hylatty --Tosi laiskat saisivat muuten kakun
 laskeKurssinGrade e = foldMap (\x -> laskeGrade x) e
 
