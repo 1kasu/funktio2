@@ -10,6 +10,7 @@ class Applicative f => VilleMonad f where--Kopioitu luennolta
 
 --Monad
 -- >>=
+-- f a -> (a -> f b) -> f b
 -- Applicative
 -- pure
 -- a -> f a
@@ -18,7 +19,6 @@ class Applicative f => VilleMonad f where--Kopioitu luennolta
 -- Functor
 -- fmap
 -- (a -> b) -> f a -> f b
--- f a -> (a -> f b) -> f b
 
 (>>>>=) :: VilleMonad m => m a -> (a -> m b) -> m b
 (>>>>=) a f = join (pure f <*> a)--Tämä tuli kohtuu helposti
