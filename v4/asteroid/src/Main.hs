@@ -4,7 +4,7 @@ import Graphics.Gloss.Interface.Pure.Game
 import Graphics.Gloss.Interface.Pure.Simulate
 import Graphics.Gloss.Interface.Pure.Display
 import Data.Monoid
-import Data.Maybe
+import Data.Maybe--TÄMÄN PITÄISI SISÄLTÄÄ TEHTÄVÄT 3 JA 4
 
 instance Monoid Bool where
     mempty = True
